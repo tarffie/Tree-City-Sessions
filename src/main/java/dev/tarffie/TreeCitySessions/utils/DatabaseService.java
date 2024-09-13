@@ -1,6 +1,7 @@
 package dev.tarffie.TreeCitySessions.utils;
 
 import io.github.cdimascio.dotenv.Dotenv;
+import jakarta.annotation.PostConstruct;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -14,7 +15,7 @@ public class DatabaseService {
     this.dotenv = dotenv;
   }
 
-  @Bean
+  @PostConstruct
   public void configureDatabaseProperties() {
     System.setProperty("spring.datasource.url", Objects.requireNonNull(dotenv.get("POSTGRESDB_URL")));
     System.setProperty("spring.datasource.username", Objects.requireNonNull(dotenv.get("POSTGRESDB_USER")));
