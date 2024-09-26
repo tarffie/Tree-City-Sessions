@@ -1,0 +1,35 @@
+services:
+  postgresdb:
+    image: 'postgres'
+    env_file: ./.env
+    environment:
+      - POSTGRES_USER=${POSTGRESDB_USER}
+      - POSTGRES_PASSWORD=${POSTGRESDB_ROOT_PASSWORD}
+      - POSTGRES_DB=${POSTGRESDB_DATABASE}
+    ports:
+      - ${POSTGRESDB_LOCAL_PORT}:${POSTGRESDB_DOCKER_PORT}
+    volumes:
+      - db:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRESDB_USER}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+#  app:
+#    depends_on:
+#      - postgresdb
+#    build:
+#      context: .
+#      target: dev
+#    restart: on-failure
+#    env_file: ./.env
+#    ports:
+#      - ${SPRING_LOCAL_PORT}:${SPRING_DOCKER_PORT}
+#    volumes:
+#      - ./:/app/
+#    stdin_open: true
+#    tty: true
+#
+volumes:
+  db:
+#  app:
